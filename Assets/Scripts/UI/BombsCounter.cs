@@ -11,12 +11,12 @@ public class BombsCounter : MonoBehaviour
 
     private void Start()
     {
-        _bombSpawner.OnCountersUpdated += UpdateBombUI;
+        _bombSpawner.CountersUpdated += UpdateBombUI;
 
         UpdateBombUI();
     }
 
-    private void OnDestroy() => _bombSpawner.OnCountersUpdated -= UpdateBombUI;
+    private void OnDestroy() => _bombSpawner.CountersUpdated -= UpdateBombUI;
 
     private void UpdateBombUI()
     {

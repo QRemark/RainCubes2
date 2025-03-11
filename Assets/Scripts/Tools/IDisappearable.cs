@@ -1,5 +1,5 @@
 public interface IDisappearable
 {
-    event System.Action<IDisappearable> OnDisappeared;
+    event System.Action<IDisappearable> Disappeared;
     void Disappear();
 }

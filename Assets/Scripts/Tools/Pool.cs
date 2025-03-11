@@ -13,7 +13,7 @@ public class Pool<T> where T : MonoBehaviour
     public int TotalCreated { get; private set; }
     public int ActiveCount { get; private set; }
 
-    public event Action OnPoolChanged;
+    public event Action PoolChanged;
 
     public void Initialize(T prefab, int initialSize, int maxSize, Transform parent = null)
     {
@@ -39,7 +39,7 @@ public class Pool<T> where T : MonoBehaviour
             T @object = _deactiveObjects.Dequeue();
             @object.gameObject.SetActive(true);
             ActiveCount++;
-            OnPoolChanged?.Invoke();
+            PoolChanged?.Invoke();
 
             return @object;
         }
@@ -54,18 +54,20 @@ public class Pool<T> where T : MonoBehaviour
             @object.gameObject.SetActive(false);
             _deactiveObjects.Enqueue(@object);
             ActiveCount--;
-            OnPoolChanged?.Invoke();
+            PoolChanged?.Invoke();
         }
     }
 
     private T Create()
     {
-        if (_currentCount >= _maxSize) return null;
+        if (_currentCount >= _maxSize) 
+            return null;
 
         T @object = UnityEngine.Object.Instantiate(_prefab, _parent);
         _currentCount++;
 
         TotalCreated++;
+
         return @object;
     }
 }

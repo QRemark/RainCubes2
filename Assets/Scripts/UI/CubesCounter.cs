@@ -11,12 +11,12 @@ public class CubesCounter : MonoBehaviour
 
     private void Start()
     {
-        _cubeSpawner.OnCountersUpdated += UpdateCubeUI;
+        _cubeSpawner.CountersUpdated += UpdateCubeUI;
         
         UpdateCubeUI();
     }
 
-    private void OnDestroy() => _cubeSpawner.OnCountersUpdated -= UpdateCubeUI;
+    private void OnDestroy() => _cubeSpawner.CountersUpdated -= UpdateCubeUI;
 
     private void UpdateCubeUI()
     {

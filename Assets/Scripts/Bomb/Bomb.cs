@@ -3,22 +3,24 @@ using UnityEngine;
 using System.Collections;
 
 [RequireComponent(typeof(Renderer), typeof(Rigidbody), typeof(ColorHandler))]
+[RequireComponent(typeof(Exploder))]
+
 public class Bomb : MonoBehaviour, IDisappearable
 {
     private ColorHandler _colorHandler;
+    private Exploder _exploder;
 
     private float _fadeTime;
-    private float _explosionForce = 30f;
-    private float _explosionRadius = 15f;
-    private float _upwardsModifier = 3f;
+
     private float _maxAlpha = 1f;
     private float _minAlpha = 0f;
 
-    public event Action<IDisappearable> OnDisappeared;
+    public event Action<IDisappearable> Disappeared;
 
     private void Awake()
     {
         _colorHandler = GetComponent<ColorHandler>();
+        _exploder = GetComponent<Exploder>();
     }
 
     public void Init(float fadeTime)
@@ -31,11 +33,8 @@ public class Bomb : MonoBehaviour, IDisappearable
 
     public void Disappear()
     {
-        if (OnDisappeared != null)
-        {
-            OnDisappeared(this);
-            ResetBomb();
-        }
+        ResetBomb();
+        Disappeared?.Invoke(this);
     }
 
     private IEnumerator FadeAndExplode()
@@ -51,18 +50,7 @@ public class Bomb : MonoBehaviour, IDisappearable
             yield return null;
         }
 
-        TryExplode();
-    }
-
-    private void TryExplode()
-    {
-        Collider[] colliders = Physics.OverlapSphere(transform.position, _explosionRadius);
-
-        foreach (Collider collieder in colliders)
-        {
-            if (collieder.TryGetComponent<Rigidbody>(out Rigidbody rigidbody))
-                rigidbody.AddExplosionForce(_explosionForce, transform.position, _explosionRadius, _upwardsModifier, ForceMode.Impulse);
-        }
+        _exploder.Detonate();
 
         Disappear();
     }

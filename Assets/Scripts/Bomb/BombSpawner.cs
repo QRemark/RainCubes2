@@ -10,7 +10,8 @@ public class BombSpawner : Spawner<Bomb>
     {
         Bomb bomb = GetObjectFromPool();
 
-        if (bomb == null) return;
+        if (bomb == null) 
+            return;
 
         bomb.transform.position = position;
         bomb.transform.rotation = Quaternion.identity;

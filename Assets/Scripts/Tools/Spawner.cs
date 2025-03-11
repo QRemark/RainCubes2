@@ -14,7 +14,7 @@ public abstract class Spawner<T> : MonoBehaviour where T : MonoBehaviour, IDisap
     public int TotalCreatedObjects => _pool.TotalCreated;
     public int TotalSpawned { get; protected set; }
 
-    public event Action OnCountersUpdated;
+    public event Action CountersUpdated;
 
     protected virtual void Awake()
     {
@@ -22,7 +22,7 @@ public abstract class Spawner<T> : MonoBehaviour where T : MonoBehaviour, IDisap
         {
             _pool = new Pool<T>();
             _pool.Initialize(_prefab, _poolCapacity, _poolMaxSize, _poolParent);
-            _pool.OnPoolChanged += UpdateCounters;
+            _pool.PoolChanged += UpdateCounters;
         }
     }
 
@@ -30,23 +30,24 @@ public abstract class Spawner<T> : MonoBehaviour where T : MonoBehaviour, IDisap
     {
         T obj = _pool.GetObject();
 
-        if (obj == null) return null;
+        if (obj == null) 
+            return null;
 
         TotalSpawned++;
         UpdateCounters();
-        obj.OnDisappeared += ReturnObjectInPool;
+        obj.Disappeared += ReturnObjectInPool;
 
         return obj;
     }
 
     protected virtual void UpdateCounters()
     {
-        OnCountersUpdated?.Invoke();
+        CountersUpdated?.Invoke();
     }
 
     private void ReturnObjectInPool(IDisappearable disappearedObject)
     {
-        disappearedObject.OnDisappeared -= ReturnObjectInPool;
+        disappearedObject.Disappeared -= ReturnObjectInPool;
         _pool.ReleaseObject((T)disappearedObject);
         UpdateCounters();
     }

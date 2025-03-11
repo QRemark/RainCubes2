@@ -15,7 +15,7 @@ public class Cube : MonoBehaviour, IDisappearable
     private float _maxLifeTimer = 5.0f;
     private float _maxLifeTimerConfrime = 0.1f;
 
-    public event Action<IDisappearable> OnDisappeared;
+    public event Action<IDisappearable> Disappeared;
 
     private void Awake()
     {
@@ -35,7 +35,7 @@ public class Cube : MonoBehaviour, IDisappearable
         CancelInvoke(nameof(NotifyTimeEnd));
 
         _colorChanger.ReturnColor();
-        OnDisappeared?.Invoke(this);
+        Disappeared?.Invoke(this);
     }
 
     private void OnCollisionEnter(Collision collision)

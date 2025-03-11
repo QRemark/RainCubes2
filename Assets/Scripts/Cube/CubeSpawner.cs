@@ -22,8 +22,7 @@ public class CubeSpawner : Spawner<Cube>
 
         cube.Init(Color.white);
 
-        cube.OnDisappeared -= HandleCubeDisappearance;
-        cube.OnDisappeared += HandleCubeDisappearance;
+        cube.Disappeared += HandleCubeDisappearance;
 
         Vector3 spawnPosition = new Vector3(
             _startPoint.position.x + Random.Range(-_radiusX, _radiusX),
@@ -38,7 +37,7 @@ public class CubeSpawner : Spawner<Cube>
     {
         if (disappearedItem is Cube cube)
         {
-            cube.OnDisappeared -= HandleCubeDisappearance;
+            cube.Disappeared -= HandleCubeDisappearance;
             _bombSpawner.SpawnBomb(cube.transform.position);
         }
     }
