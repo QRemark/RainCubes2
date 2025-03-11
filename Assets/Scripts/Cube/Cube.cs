@@ -1,27 +1,27 @@
 using System;
 using UnityEngine;
 
-[RequireComponent(typeof(Renderer))]
-[RequireComponent(typeof(Rigidbody))]
-public class Cube : MonoBehaviour
+[RequireComponent(typeof(Renderer), typeof(Rigidbody), typeof(ColorHandler))]
+public class Cube : MonoBehaviour, IDisappearable
 {
-    [SerializeField] private CubeColorChanger _colorChananger;
-
+    private ColorHandler _colorChanger;
     private Renderer _renderer;
     private Rigidbody _rigidbody;
-
-    public event Action<Cube> OnTimerEnded;
 
     private bool _isColorChanged = false;
 
     private float _lifeTime;
     private float _minLifeTimer = 2.0f;
     private float _maxLifeTimer = 5.0f;
+    private float _maxLifeTimerConfrime = 0.1f;
+
+    public event Action<IDisappearable> OnDisappeared;
 
     private void Awake()
     {
         _renderer = GetComponent<Renderer>();
         _rigidbody = GetComponent<Rigidbody>();
+        _colorChanger = GetComponent<ColorHandler>();
     }
 
     public void Init(Color initialColor)
@@ -30,9 +30,12 @@ public class Cube : MonoBehaviour
         _renderer.material.color = initialColor;
     }
 
-    public void ResetSpeed()
+    public void Disappear()
     {
-        _rigidbody.velocity = Vector3.zero;
+        CancelInvoke(nameof(NotifyTimeEnd));
+
+        _colorChanger.ReturnColor();
+        OnDisappeared?.Invoke(this);
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -42,9 +45,7 @@ public class Cube : MonoBehaviour
             if (_isColorChanged == false)
             {
                 _isColorChanged = true;
-
-                _colorChananger.ChangeColor();
-
+                _colorChanger.ChangeColor();
                 StartLifeTimer();
             }
         }
@@ -52,12 +53,14 @@ public class Cube : MonoBehaviour
 
     private void StartLifeTimer()
     {
-        _lifeTime = UnityEngine.Random.Range(_minLifeTimer, _maxLifeTimer + 1.0f);
+        _lifeTime = UnityEngine.Random.Range(_minLifeTimer, _maxLifeTimer + _maxLifeTimerConfrime);
         Invoke(nameof(NotifyTimeEnd), _lifeTime);
     }
 
     private void NotifyTimeEnd()
     {
-        OnTimerEnded?.Invoke(this);
-    }
+        _rigidbody.velocity = Vector3.zero;
+        _rigidbody.angularVelocity = Vector3.zero;
+        Disappear();
+    }   
 }
