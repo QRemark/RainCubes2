@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class CubeSpawner : Spawner<Cube>
+public class CubeSpawner : Spawner<Cube>, ICounter
 {
     [SerializeField] private Transform _startPoint;
     [SerializeField] private float _repeatRate = 0.5f;

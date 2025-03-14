@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class BombSpawner : Spawner<Bomb>
+public class BombSpawner : Spawner<Bomb>, ICounter
 {
     private float _minTime = 2f;
     private float _maxTime = 5f;

@@ -1828,7 +1828,7 @@ MonoBehaviour:
   _prefab: {fileID: 8861519630366049526, guid: 7d170b54c48268a40adeaf7b76683c14, type: 3}
   _poolCapacity: 8
   _poolParent: {fileID: 467235563}
-  poolMaxSize: 10
+  _poolMaxSize: 10
 --- !u!114 &1084857499
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1844,7 +1844,7 @@ MonoBehaviour:
   _prefab: {fileID: 7140263365702548283, guid: 2b92aef0fca4e4d40aa2cdac77f62399, type: 3}
   _poolCapacity: 8
   _poolParent: {fileID: 796496572}
-  poolMaxSize: 10
+  _poolMaxSize: 10
   _startPoint: {fileID: 1084857496}
   _repeatRate: 0.5
   _radiusX: 8
@@ -2262,10 +2262,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 93c36a7fcbfd276448108e9f0ad053db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _cubeSpawner: {fileID: 1084857499}
-  _cubeActiveCount: {fileID: 754333819}
-  _cubeTotalSpawned: {fileID: 931361742}
-  _cubeTotalCreated: {fileID: 2096901442}
+  _spawner: {fileID: 1084857499}
+  _activeTextTemplate: "\u0410\u043A\u0442\u0438\u0432\u043D\u044B\u0435 \u043A\u0443\u0431\u044B:
+    {0}"
+  _activeCountText: {fileID: 754333819}
+  _totalSpawnedText: {fileID: 931361742}
+  _totalCreatedText: {fileID: 2096901442}
 --- !u!1 &1749926959
 GameObject:
   m_ObjectHideFlags: 0
@@ -2385,10 +2387,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a2f8b7b9ba804a4489c80ce0451ae7f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _bombSpawner: {fileID: 1084857498}
-  _bombActiveCount: {fileID: 846537571}
-  _bombTotalSpawned: {fileID: 874505587}
-  _bombTotalCreated: {fileID: 403807150}
+  _spawner: {fileID: 1084857498}
+  _activeTextTemplate: "\u0410\u043A\u0442\u0438\u0432\u043D\u044B\u0445 \u0431\u043E\u043C\u0431:
+    {0}"
+  _activeCountText: {fileID: 846537571}
+  _totalSpawnedText: {fileID: 874505587}
+  _totalCreatedText: {fileID: 403807150}
 --- !u!1 &1998024738
 GameObject:
   m_ObjectHideFlags: 0
